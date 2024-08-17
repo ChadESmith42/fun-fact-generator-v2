@@ -1,0 +1,18 @@
+version: '3'
+services:
+  database:
+    image: 'postgres:latest'
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 7G9p#kY6^TmDvXq8jH$z #change this to your password
+      POSTGRES_DB: project
+    ports:
+      - '5432:5432'
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '3000:3000'
+    depends_on:
+      - database

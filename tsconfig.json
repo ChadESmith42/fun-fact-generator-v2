@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+        "noImplicitAny": false,
+        "noEmitOnError": true,
+        "forceConsistentCasingInFileNames": true,
+        "strict": true,
+        "removeComments": false,
+        "sourceMap": true,
+        "target": "es5",
+        "outDir": "dist"
+    },
+    "include": [
+        "modules/**/*",
+        "utilities/**/*",
+        "routes/**/*",
+        "db/**/*",
+        "index.ts",
+    ]
+}
