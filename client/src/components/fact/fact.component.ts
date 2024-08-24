@@ -29,7 +29,7 @@ export class FactComponent implements OnDestroy {
     this._factService.getFact().pipe(takeUntil(this._destroy$)).subscribe({
       next: fact => {
         this.fact$.set(fact.message);
-        this.currentFacts.push(fact.message);
+        this.currentFacts = [fact.message, ...this.currentFacts];
       },
       error: () => {
         this.fact$.set('Could not get a fact.');

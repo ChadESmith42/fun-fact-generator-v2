@@ -1,0 +1,16 @@
+.fact {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.previous-container {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+}
+
+.previous-fact {
+  font-size: 1rem;
+  font-weight: 500;
+}
+

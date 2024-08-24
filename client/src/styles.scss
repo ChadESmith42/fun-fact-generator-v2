@@ -1,1 +1,60 @@
-/* You can add global styles to this file, and also import other style files */
+@import '../node_modules/open-color/open-color.scss';
+
+  .body {
+    background-color: $oc-gray-0;
+    color: $oc-gray-7;
+  }
+
+  button {
+    position: relative;
+    overflow: hidden;
+    border: none;
+    background-color: $oc-blue-7;
+    border-radius: 0.25rem;
+    color: $oc-gray-0;
+    min-height: 2rem;
+    max-height: 2.5rem;
+    transition: background-color 0.3s, color 0.3s;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      transform: scale(0);
+      transition: transform 0.5s, opacity 0.5s;
+      opacity: 0;
+    }
+
+    &:hover {
+      background-color: $oc-blue-3;
+      color: $oc-gray-8;
+    }
+
+    &:active::before {
+      transform: scale(4);
+      opacity: 1;
+      transition: transform 0.5s, opacity 0.5s;
+    }
+
+    &:active {
+      background-color: $oc-blue-5;
+      color: $oc-gray-0;
+    }
+  }
+
+
+
+  a {
+    color: $oc-blue-7;
+
+    &:hover,
+    &:focus,
+    &:active {
+      color: $oc-blue-9;
+    }
+  }

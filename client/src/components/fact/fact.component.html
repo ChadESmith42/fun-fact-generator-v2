@@ -1,13 +1,17 @@
 <section>
   @if(fact$(); as fact) {
-    <p>{{ fact }}</p>
+    <p class="fact">{{ fact }}</p>
   } @else {
     <p>Click the button to load a fun fact.</p>
   }
 </section>
-<button (click)="getFact()">Get New Fact</button>
+<button class="fact-button" type="button" (click)="getFact()">Get New Fact</button>
 <section>
   @for(currentFact of currentFacts; track currentFact) {
-    <p>{{ currentFact }}</p>
+    <article class="previous-container">
+      <p class="previous-fact">{{ currentFact }}</p>
+      <button type="button">Add to favorites</button>
+    </article>
+
   }
 </section>
