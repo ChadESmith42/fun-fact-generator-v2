@@ -10,7 +10,7 @@
   @for(currentFact of currentFacts; track currentFact) {
     <article class="previous-container">
       <p class="previous-fact">{{ currentFact }}</p>
-      <button type="button">Add to favorites</button>
+      <button type="button" (click)="addToFavorites(currentFact)">Add to favorites</button>
     </article>
 
   }

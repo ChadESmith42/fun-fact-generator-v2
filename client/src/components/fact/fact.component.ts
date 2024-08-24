@@ -37,4 +37,11 @@ export class FactComponent implements OnDestroy {
     });
   }
 
+  addToFavorites(fact: string) {
+    console.log(`Saving ${fact}`)
+    this._factService.saveFact(fact).subscribe({
+      next: response => console.log(response)
+    });
+  }
+
 }

@@ -13,4 +13,8 @@ export class FactService {
   getFact(): Observable<Fact> {
     return this._http.get<Fact>('api/fact');
   }
+
+  saveFact(fact: string): Observable<unknown> {
+    return this._http.post('api/fact', { message: fact });
+  }
 }
