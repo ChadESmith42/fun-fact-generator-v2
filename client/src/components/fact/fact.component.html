@@ -1,7 +1,13 @@
 <section>
-  @if(fact$ | async; as fact) {
-    <p>{{ fact.message }}</p>
+  @if(fact$(); as fact) {
+    <p>{{ fact }}</p>
   } @else {
-    <p>Loading fact ...</p>
+    <p>Click the button to load a fun fact.</p>
+  }
+</section>
+<button (click)="getFact()">Get New Fact</button>
+<section>
+  @for(currentFact of currentFacts; track currentFact) {
+    <p>{{ currentFact }}</p>
   }
 </section>

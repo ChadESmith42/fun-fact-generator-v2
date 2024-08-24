@@ -95,7 +95,7 @@ export const Factoids = {
     { id: 32, text: "containers" },
     { id: 33, text: "trays" },
     { id: 34, text: "packagings" },
-    { id: 35, text: "caps" },
+    { id: 35, text: "bottle caps" },
     { id: 36, text: "tubes" },
     { id: 37, text: "syringes" },
     { id: 38, text: "pipettes" },
@@ -130,6 +130,7 @@ export const Factoids = {
     { id: 67, text: "tape dispensers" },
     { id: 68, text: "glue sticks" },
     { id: 69, text: "paper fasteners" },
+    { id: 70, text: "coffee filters" },
   ],
   verbs: [
     { id: 0, text: "repair" },
