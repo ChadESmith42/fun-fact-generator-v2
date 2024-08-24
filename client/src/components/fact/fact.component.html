@@ -1,0 +1,7 @@
+<section>
+  @if(fact$ | async; as fact) {
+    <p>{{ fact.message }}</p>
+  } @else {
+    <p>Loading fact ...</p>
+  }
+</section>
