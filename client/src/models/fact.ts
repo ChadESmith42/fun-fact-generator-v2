@@ -1,3 +1,6 @@
 export interface Fact {
-  message: string,
+  factoid: string,
+  createdDate?: Date | string,
+  votes?: number,
+  vote?: 1 | -1,
 }
