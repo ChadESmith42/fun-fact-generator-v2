@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable, signal, WritableSignal } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { Fact } from '../models/fact';
 
@@ -7,8 +7,9 @@ import { Fact } from '../models/fact';
   providedIn: 'root'
 })
 export class FactService {
+  private _http: HttpClient = inject(HttpClient);
   currentFactList: string[] = [];
-  constructor(private _http: HttpClient) { }
+  limit$: WritableSignal<number> = signal<number>(10);
 
   getFact(): Observable<Fact> {
     return this._http.get<Fact>('api/fact');
@@ -16,5 +17,13 @@ export class FactService {
 
   saveFact(fact: string): Observable<unknown> {
     return this._http.post('api/fact', { message: fact });
+  }
+
+  getPopular(limit: number): Observable<Fact[]> {
+    return this._http.get<Fact[]>(`api/fact/popular?queryLimit=${limit}`);
+  }
+
+  getLatest(limit: number): Observable<Fact[]> {
+    return this._http.get<Fact[]>(`api/fact/latest?queryLimit=${limit}`);
   }
 }
