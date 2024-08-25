@@ -1,4 +1,6 @@
 import { getRandomItem } from "../utilities/randomElement";
+import { client, pool } from "../db/pg";
+import { Factoid } from "../models/factoid.model";
 
 export const Factoids = {
   descriptors: [
@@ -219,8 +221,39 @@ export const Factoids = {
 };
 
 export function getFactoid(): string {
-    const verb = getRandomItem(Factoids.verbs);
-    const adjective = getRandomItem(Factoids.descriptors);
-    const noun = getRandomItem(Factoids.nouns);
-    return `I ${verb.text} ${adjective.text} ${noun.text}.`;
+  const verb = getRandomItem(Factoids.verbs);
+  const adjective = getRandomItem(Factoids.descriptors);
+  const noun = getRandomItem(Factoids.nouns);
+  return `I ${verb.text} ${adjective.text} ${noun.text}.`;
+}
+
+export async function saveFactoid(factoid: Factoid): Promise<Factoid | unknown> {
+  try {
+    const queryText = `
+    INSERT into FACTOIDS (factoid, createdDate, votes) VALUES($1, NOW(), 1)
+    RETURNING *;
+  `;
+    const { rows } = await pool.query(queryText, [factoid.message]);
+    return rows[0];
+  } catch (error) {
+    return error;
+  }
+}
+
+export async function updateFactoidVote(factoid: Factoid, vote: 1 | -1): Promise<Factoid | null> {
+  const queryText = `
+    UPDATE factoids
+    SET votes = votes + $1
+    WHERE factoid = $2
+    RETURNING *;
+  `;
+  const values = [vote, factoid.message];
+  try {
+    const { rows } = await pool.query(queryText, values);
+    return rows[0];
+
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
 }

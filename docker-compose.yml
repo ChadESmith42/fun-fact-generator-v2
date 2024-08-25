@@ -1,13 +1,17 @@
-version: '3'
+version: '3.8'
+
 services:
   database:
-    image: 'postgres:latest'
+    image: postgres:16
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: 7G9p#kY6^TmDvXq8jH$z #change this to your password
+      POSTGRES_PASSWORD: 7G9p#kY6^TmDvXq8jH
       POSTGRES_DB: project
     ports:
-      - '5432:5432'
+      - '5432:5434'
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
   app:
     build:
       context: .
@@ -16,3 +20,6 @@ services:
       - '3000:3000'
     depends_on:
       - database
+
+volumes:
+  pgdata:
