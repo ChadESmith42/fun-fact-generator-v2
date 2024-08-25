@@ -37,7 +37,6 @@ factRouter.post('/', async (req: Request, res: Response) => {
 });
 
 factRouter.get('/popular', async (req: Request, res: Response) => {
-    console.log('Request', req);
     const queryLimit = parseInt(req.query.queryLimit as string) || 100;
     try {
         const popular = await getPopularFactoids(queryLimit);

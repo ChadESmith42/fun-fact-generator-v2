@@ -228,11 +228,11 @@ export function getFactoid(): string {
 }
 
 export async function saveFactoid(factoid: Factoid): Promise<Factoid | unknown> {
-  try {
-    const queryText = `
+  const queryText = `
     INSERT into FACTOIDS (factoid, createdDate, votes) VALUES($1, NOW(), 1)
     RETURNING *;
   `;
+  try {
     const { rows } = await pool.query(queryText, [factoid.message]);
     return rows[0];
   } catch (error) {
@@ -259,12 +259,12 @@ export async function updateFactoidVote(factoid: Factoid, vote: 1 | -1): Promise
 }
 
 export async function getPopularFactoids(queryLimit): Promise<Factoid[] | null> {
+  const queryText = `
+    SELECT * FROM factoids
+    ORDER BY votes DESC
+    LIMIT $1;
+  `;
   try {
-    const queryText = `
-      SELECT * FROM factoids
-      ORDER BY votes DESC
-      LIMIT $1;
-    `;
     const { rows } = await pool.query(queryText, [queryLimit]);
     return rows;  
   } catch (error) {
@@ -274,12 +274,12 @@ export async function getPopularFactoids(queryLimit): Promise<Factoid[] | null> 
 }
 
 export async function getNewestFactoids(queryLimit: number): Promise<Factoid[] | null> {
+  const queryText = `
+    SELECT * FROM factoids
+    ORDER BY createdDate DESC
+    LIMIT $1;
+  `;
   try {
-    const queryText = `
-      SELECT * FROM factoids
-      ORDER BY createdDate DESC
-      LIMIT $1;
-    `;
     const { rows } = await pool.query(queryText, [queryLimit]);
     return rows;
   } catch (error) {
