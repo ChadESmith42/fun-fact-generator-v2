@@ -28,8 +28,8 @@ export class FactComponent implements OnDestroy {
   getFact(): void {
     this._factService.getFact().pipe(takeUntil(this._destroy$)).subscribe({
       next: fact => {
-        this.fact$.set(fact.message);
-        this.currentFacts = [fact.message, ...this.currentFacts];
+        this.fact$.set(fact.factoid);
+        this.currentFacts = [fact.factoid, ...this.currentFacts];
       },
       error: () => {
         this.fact$.set('Could not get a fact.');

@@ -1,1 +1,14 @@
-<p>popular works!</p>
+@if(popularFacts$ | async; as facts) {
+  <section>
+    @for(fact of facts; track fact;) {
+      <article class="popular-facts">
+        <span>{{ fact.factoid }}</span>
+        <span>{{ fact.votes }}</span>
+        <span class="row-button-group">
+          <button (click)="voteOnFact(fact, 1)">&uparrow;</button>
+          <button (click)="voteOnFact(fact, -1)">&downarrow;</button>
+        </span>
+      </article>
+    }
+  </section>
+}

@@ -26,4 +26,13 @@ export class FactService {
   getLatest(limit: number): Observable<Fact[]> {
     return this._http.get<Fact[]>(`api/fact/latest?queryLimit=${limit}`);
   }
+
+  voteOnFact(fact: Fact, vote: 1 | -1): Observable<Fact> {
+    const newVote = {
+      ...fact,
+      vote
+    };
+    console.log(newVote);
+    return this._http.post<Fact>(`api/fact`, newVote);
+  }
 }
