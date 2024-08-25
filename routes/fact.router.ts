@@ -9,19 +9,19 @@ function isFactoid(obj: any): obj is Factoid {
 }
 
 factRouter.get('/', async (req: Request, res: Response) => {
-    console.log('Fact requested!');
     const fact = { message: getFactoid() };
     res.send(fact).status(200);
 });
 
 factRouter.post('/', async (req: Request, res: Response) => {
     try {
-        const fact:Factoid = req.body;
-        console.log(fact);
-        if(fact.votes) {
-            const result = await updateFactoidVote(fact, fact.votes === 1 ? 1 : -1);
+        const fact: Factoid = req.body;
+
+        if (fact.vote) {
+            const result = await updateFactoidVote(fact, fact.vote);
             return result ? res.send(result) : res.status(500).send('Could not update fact.');
         }
+
         const saved: Factoid | unknown = await saveFactoid(fact);
 
         if (isFactoid(saved)) {
@@ -31,9 +31,11 @@ factRouter.post('/', async (req: Request, res: Response) => {
             return result ? res.send(result) : res.status(500).send('Could not update fact.');
         }
     } catch (error: any) {
+        console.error('Error in factRouter.post:', error);
         res.status(500).json({ error: error.message });
     }
 });
+
 
 
 
