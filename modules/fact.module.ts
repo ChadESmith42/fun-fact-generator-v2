@@ -257,3 +257,33 @@ export async function updateFactoidVote(factoid: Factoid, vote: 1 | -1): Promise
     return null;
   }
 }
+
+export async function getPopularFactoids(queryLimit): Promise<Factoid[] | null> {
+  try {
+    const queryText = `
+      SELECT * FROM factoids
+      ORDER BY votes DESC
+      LIMIT $1;
+    `;
+    const { rows } = await pool.query(queryText, [queryLimit]);
+    return rows;  
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}
+
+export async function getNewestFactoids(queryLimit: number): Promise<Factoid[] | null> {
+  try {
+    const queryText = `
+      SELECT * FROM factoids
+      ORDER BY createdDate DESC
+      LIMIT $1;
+    `;
+    const { rows } = await pool.query(queryText, [queryLimit]);
+    return rows;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}

@@ -1,5 +1,5 @@
 import { Request, Response, Router } from 'express';
-import { getFactoid, saveFactoid, updateFactoidVote } from '../modules/fact.module';
+import { getFactoid, getNewestFactoids, getPopularFactoids, saveFactoid, updateFactoidVote } from '../modules/fact.module';
 import { Factoid } from '../models/factoid.model';
 
 const factRouter = Router();
@@ -33,6 +33,37 @@ factRouter.post('/', async (req: Request, res: Response) => {
     } catch (error: any) {
         console.error('Error in factRouter.post:', error);
         res.status(500).json({ error: error.message });
+    }
+});
+
+factRouter.get('/popular', async (req: Request, res: Response) => {
+    console.log('Request', req);
+    const queryLimit = parseInt(req.query.queryLimit as string) || 100;
+    try {
+        const popular = await getPopularFactoids(queryLimit);
+        if(popular?.length && popular.length > 0) {
+            res.send(popular);
+        } else {
+            res.status(500).send('Could not get popular facts.');
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Could not get popular facts.');
+    }
+});
+
+factRouter.get('/latest', async (req: Request, res: Response) => {
+    const queryLimit = parseInt(req.query.queryLimit as string) || 100;
+    try {
+        const newest = await getNewestFactoids(queryLimit);
+        if(newest?.length && newest.length > 0) {
+            res.send(newest);
+        } else {
+            res.status(500).send('Could not get newest facts.');
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Could not get newest facts.');
     }
 });
 
