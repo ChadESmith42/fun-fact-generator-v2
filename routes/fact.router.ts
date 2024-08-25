@@ -16,8 +16,12 @@ factRouter.get('/', async (req: Request, res: Response) => {
 
 factRouter.post('/', async (req: Request, res: Response) => {
     try {
-        const fact = req.body;
-        console.log(req.body);
+        const fact:Factoid = req.body;
+        console.log(fact);
+        if(fact.votes) {
+            const result = await updateFactoidVote(fact, fact.votes === 1 ? 1 : -1);
+            return result ? res.send(result) : res.status(500).send('Could not update fact.');
+        }
         const saved: Factoid | unknown = await saveFactoid(fact);
 
         if (isFactoid(saved)) {

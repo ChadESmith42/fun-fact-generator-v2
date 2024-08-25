@@ -243,14 +243,14 @@ export async function saveFactoid(factoid: Factoid): Promise<Factoid | unknown> 
 export async function updateFactoidVote(factoid: Factoid, vote: 1 | -1): Promise<Factoid | null> {
   const queryText = `
     UPDATE factoids
-    SET votes = votes + $1
+    SET votes = $1 + votes
     WHERE factoid = $2
     RETURNING *;
   `;
   const values = [vote, factoid.message];
   try {
-    const { rows } = await pool.query(queryText, values);
-    return rows[0];
+    const result = await pool.query(queryText, values);
+    return result.rows[0];
 
   } catch (error) {
     console.error(error);
