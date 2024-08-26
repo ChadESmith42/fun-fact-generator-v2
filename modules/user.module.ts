@@ -1,18 +1,18 @@
-import { UserByIdResponse } from "../models/user-by-id-response.model";
+import * as jwt from "jsonwebtoken";
 import { pool } from "../db/pg";
-import {
-  RegisterUser,
-  RegisterUserResponse,
-} from "../models/register-user.model";
 import { EditUser } from "../models/edit-user.model";
 import { JwtPayload } from "../models/jwt-payload.model";
-import * as jwt from "jsonwebtoken";
-import { Login } from "../models/login.model";
 import { LoginResponse } from "../models/login-response.model";
+import { Login } from "../models/login.model";
+import {
+    RegisterUser,
+    RegisterUserResponse,
+} from "../models/register-user.model";
+import { UserByIdResponse } from "../models/user-by-id-response.model";
 import { comparePassword } from "./encryption.module";
 
-
-const JWT_TIMEOUT = process.env.JWT_TIMEOUT;
+const oneHour = 1000 * 60 * 60;
+const JWT_TIMEOUT = process.env.JWT_TIMEOUT ? parseInt(process.env.JWT_TIMEOUT) : oneHour;
 const JWT_AUDIENCE = process.env.JWT_AUDIENCE;
 const JWT_ISSUER = process.env.JWT_ISSUER;
 const SERVER_SECRET = process.env.SERVER_SECRET;
@@ -184,4 +184,24 @@ export async function editUser(
       }
     }
   );
+}
+
+/**
+ * Check if a username is available.
+ * @param {string} username - The username to check.
+ * @returns {Promise<boolean>} - True if the username is available, false otherwise.
+ */
+export async function checkUsername(username: string): Promise<boolean> {
+  const queryString: string = `
+        SELECT id
+        FROM "users"
+        WHERE username = $1;
+    `;
+  try {
+    const { rows } = await pool.query(queryString, [username]);
+    return rows.length > 0;
+  } catch (error) {
+    console.error(error);
+    return false;
+  }
 }

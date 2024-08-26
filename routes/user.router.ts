@@ -1,19 +1,17 @@
-import { Router, Request, Response } from 'express';
 import { config } from 'dotenv';
-import { ensureJwt } from '../modules/ensure-jwt.module';
-import { UserByIdResponse } from '../models/user-by-id-response.model';
-import { createNewUser, editUser, getUser, login } from '../modules/user.module';
+import { Request, Response, Router } from 'express';
 import { EditUser } from '../models/edit-user.model';
-import { RegisterUser, RegisterUserResponse } from '../models/register-user.model';
-import { encryptPassword } from '../modules/encryption.module';
 import { Login } from '../models/login.model';
+import { RegisterUser, RegisterUserResponse } from '../models/register-user.model';
+import { UserByIdResponse } from '../models/user-by-id-response.model';
+import { encryptPassword } from '../modules/encryption.module';
+import { ensureJwt } from '../modules/ensure-jwt.module';
+import { checkUsername, createNewUser, editUser, getUser, login } from '../modules/user.module';
 
 // dotenv configuration
 config();
 
 const userRouter: Router = Router();
-
-const oneHour = 1000 * 60 * 60;
 
 // GET /users/:id
 userRouter.get('/:id', ensureJwt, async(req: Request, res: Response): Promise<any> => {
@@ -55,13 +53,8 @@ userRouter.put('/:id', ensureJwt, async(req: any, res: Response): Promise<any> =
   
   // POST /login
   userRouter.post('/login', async (req: Request, res: Response): Promise<any> => {
-    console.log('login');  
     const credentials: Login = { ...req.body };
-    console.info('credentials', credentials);
     const { token, user, error } = await login(credentials);
-    console.info('token', token);
-    console.info('user', user);
-    console.info('error', error);
     if(token) {
         res.setHeader('Authorization', `bearer ${token}`);
         res.send(user).status(200);
@@ -69,6 +62,12 @@ userRouter.put('/:id', ensureJwt, async(req: any, res: Response): Promise<any> =
         res.status(401).send(`${error}`);
     }
     res.end();
+  });
+
+  userRouter.post('/checkUsername', async (req: Request, res: Response): Promise<any> => {
+    const username: string = req.body.username;
+    const exists: boolean = await checkUsername(username);
+    res.send(exists);
   });
   
 
