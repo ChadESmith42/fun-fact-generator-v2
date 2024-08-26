@@ -1,5 +1,0 @@
-PGUSER=chadsmith
-PGPASSWORD=Bryce5627
-PGHOST=localhost
-PGPORT=5432
-PGDATABASE=postgresql
