@@ -1,9 +1,45 @@
 .popular-facts {
-  display: flex;
-  flex-flow: row nowrap;
-  gap: 1rem;
+  display: grid;
+  grid-template-columns: [startFact] 30% [endFact startVoteCount] 5rem [endVoteCount startVoteUp] 3rem [endVoteUp startVoteDown] 3rem [endVoteDown];
+  justify-items: center;
+  align-items: center;
+  gap: 1rem 2rem;
+  margin-top: 3rem;
+}
+
+.factoid {
+  grid-column: startFact / endFact;
+  justify-self: right;
+}
+
+.vote-count {
+  grid-column: startVoteCount / endVoteCount;
+}
+
+.vote-icon-container {
+  grid-column: startVoteUp / endVoteDown;
+}
+
+.up-vote {
+  grid-column: startVoteUp / endVoteUp;
+}
+
+.down-vote {
+  grid-column: startVoteDown / endVoteDown;
 }
 
 article {
   margin: 0 0 1rem 0;
+}
+
+.title {
+  font-weight: 800;
+  font-size: 1.25rem;
+  justify-self: center;
+}
+
+.vote-button {
+  height: 4/3;
+  width: 3/4;
+  padding-top: 0.25rem;
 }

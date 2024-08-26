@@ -1,14 +1,20 @@
 @if(popularFacts$ | async; as facts) {
   <section>
-    @for(fact of facts; track fact;) {
-      <article class="popular-facts">
-        <span>{{ fact.factoid }}</span>
-        <span>{{ fact.votes }}</span>
-        <span class="row-button-group">
-          <button (click)="voteOnFact(fact, 1)">&uparrow;</button>
-          <button (click)="voteOnFact(fact, -1)">&downarrow;</button>
-        </span>
-      </article>
-    }
+    <article class="popular-facts">
+        <span class="factoid title">Facts</span>
+        <span class="vote-count title">Votes</span>
+        <span class="vote-icon-container title">Your Vote</span>
+      @for(fact of facts; track fact;) {
+        <span class="factoid">{{ fact.factoid }}</span>
+        <span class="vote-count">{{ fact.votes }}</span>
+        <button type="button" class="vote-button up-vote" (click)="voteOnFact(fact, 1)"><span class="material-symbols-outlined">
+          thumb_up
+          </span></button>
+        <button type="button" class="vote-button down-vote" (click)="voteOnFact(fact, -1)"><span class="material-symbols-outlined">
+          thumb_down
+          </span></button>
+      }
+    </article>
   </section>
 }
+
